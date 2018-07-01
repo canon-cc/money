@@ -1,263 +1,210 @@
-<!DOCTYPE html>
-<html>
-
+  <!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html lang="en" class="no-js">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-		<title>form</title>
-		<style type="text/css">
-			#table table {
-				width: 100%;
-				font-size: 14px;
-				border: 1px solid #eee
-			}
-			
-			#table {
-				padding: 0 10px;
-			}
-			
-			table thead th {
-				background: #f5f5f5;
-				padding: 10px;
-				text-align: left;
-			}
-			
-			table tbody td {
-				padding: 10px;
-				text-align: left;
-				border-bottom: 1px solid #eee;
-				border-right: 1px solid #eee;
-			}
-			
-			table tbody td span {
-				margin: 0 10px;
-				cursor: pointer;
-			}
-			
-			.delete {
-				color: red;
-			}
-			
-			.edit {
-				color: #008cd5;
-			}
-			
-			.add {
-				border: 1px solid #eee;
-				margin: 10px 0;
-				padding: 15px;
-			}
-			
-			input {
-				border: 1px solid #ccc;
-				padding: 5px;
-				border-radius: 3px;
-				margin-right: 15px;
-			}
-			
-			button {
-				background: #008cd5;
-				border: 0;
-				padding: 4px 15px;
-				border-radius: 3px;
-				color: #fff;
-			}
-			
-			#mask {
-				background: rgba(0, 0, 0, .5);
-				width: 100%;
-				height: 100%;
-				position: fixed;
-				z-index: 4;
-				top: 0;
-				left: 0;
-			}
-			
-			.mask {
-				width: 300px;
-				height: 250px;
-				background: rgba(255, 255, 255, 1);
-				position: absolute;
-				left: 0;
-				top: 0;
-				right: 0;
-				bottom: 0;
-				margin: auto;
-				z-index: 47;
-				border-radius: 5px;
-			}
-			
-			.title {
-				padding: 10px;
-				border-bottom: 1px solid #eee;
-			}
-			
-			.title span {
-				float: right;
-				cursor: pointer;
-			}
-			
-			.content {
-				padding: 10px;
-			}
-			
-			.content input {
-				width: 270px;
-				margin-bottom: 15px;
-			}
-		</style>
-	</head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>星云医疗链</title>
+		<meta name="description" content="星云医疗链" />
+		<meta name="keywords" content="html5 template, css3, one page, animations, agency, portfolio, web design" />
+		
+		<!-- Bootstrap -->
+		<script src="js/modernizr.min.js"></script>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/jquery.fancybox.min.css" rel="stylesheet">
+		<link href="css/flickity.css" rel="stylesheet" >
+		<link href="css/animate.min.css" rel="stylesheet">
+		<link href="css/font-awesome.min.css" rel="stylesheet">
+		<link href="css/styles.css" rel="stylesheet">
+		<link href="css/queries.css" rel="stylesheet">
+		<link href="dist/spop.min.css" rel="stylesheet"/>
+    	<link href="css/styles.min.css" rel="stylesheet"/>
 
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="http://cdn.gbtags.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="http://cdn.gbtags.com/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		
+		
+	<style>
+	#cdawrap {
+		top: 538px!important;
+		position: absolute !important;
+		background: none !important;
+		border: 1px solid rgba(255,255,255,0.5) !important;
+	}
+	#cdawrap .carbon-text {
+		color: #fff !important;
+	}
+	</style>
+	</head>
 	<body>
-		<div id="table" style="color: #000;">
-			<div class="add">
-				<input type="text" v-model="addDetail.title" name="title" value="" placeholder="标题" />
-				<input type="text" v-model="addDetail.user" name="user" value="" placeholder="发布人" />
-				<input type="date" v-model="addDetail.dates" name="date" value="" placeholder="发布时间" />
-				<button @click="adddetail">新增</button>
-			</div>
-			<table cellpadding="0" cellspacing="0">
-				<thead>
-					<tr>
-						<th>序号</th>
-						<th>标题</th>
-						<th>发布人</th>
-						<th>发布时间</th>
-						<th>操作</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="(item,index) in newsList">
-						<td width="5%">{{index+1}}</td>
-						<td>{{item.title}}</td>
-						<td width="10%">{{item.user}}</td>
-						<td width="15%">{{item.dates}}</td>
-						<td width="10%"><span @click="deletelist(item.id,index)" class="delete">删除</span><span class="edit" @click="edit(item)">编辑</span></td>
-					</tr>
-				</tbody>
-			</table>
-			<div id="mask" v-if="editlist">
-				<div class="mask">
-					<div class="title">
-						编辑
-						<span @click="editlist=false">
-							X
-						</span>
+		<!--[if lt IE 7]>
+		<p class="browsehappy">你使用的浏览器已经太陈旧啦. 请<a href="http://www.gbtags.com/gb/networks/update-browser.html"立刻升级你的浏览器</a></p>
+		<![endif]-->
+		<!-- open/close -->
+		
+		<header>
+			<section class="hero">
+				<div class="texture-overlay"></div>
+				<div class="container">
+					<div class="row nav-wrapper">
+						<div class="col-md-6 col-sm-6 col-xs-6 text-left">
+							
+						</div>
+						<div class="col-md-6 col-sm-6 col-xs-6 text-right navicon">
+							<p><i class="fa fa"></i></p><a id="trigger-overlay" class="nav_slide_button nav-toggle" href="#"><span></span></a>
+						</div>
 					</div>
-					<div class="content">
-						<input type="text" v-model="editDetail.title" name="title" value="" placeholder="标题" />
-						<input type="text" v-model="editDetail.user" name="user" value="" placeholder="发布人" />
-						<input type="date" v-model="editDetail.dates" name="date" value="" placeholder="发布时间" />
-						<button @click="update">更新</button>
-						<button @click="editlist=false">取消</button>
+					<div class="row hero-content">
+						<div class="col-md-12">
+							<h1 class="animated fadeInDown">星云流水账</h1>
+							<a href="./login.html" class="use-btn animated fadeInUp">使用</a> 
+							<a href="#about" class="learn-btn animated fadeInUp">了解一下 <i class="fa fa-arrow-down"></i></a>
+						</div>
+					</div>
+				</div>
+			</section>
+		</header>
+		<section class="video" id="about">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 text-center">
+						<h1>
+							
+						</h1>
 					</div>
 				</div>
 			</div>
+		</section>
+		<section class="features-intro">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-6 nopadding features-intro-img">
+						<div class="features-bg">
+							<div class="texture-overlay"></div>
+							<div class="features-img wp1">
+								
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 nopadding">
+						<div class="features-slider">
+								<ul class="slides" id="featuresSlider">
+									<li>
+										<h1>现状</h1>
+										<p>近年来，实体店收银员利用职务之便，偷偷谋取私利的</p>
+										
+									</li>
+									<li>
+										<h1>使用</h1>
+										<p>使用星云流水账，将每一笔帐目上链，不可篡改，方面后期核对。必要情况下可以配合监控器使用</p>
+										
+									</li>
+									<li>
+										<h1>免费</h1>
+										<p>本站基于星云链，使用几乎不需要费用，只有几分钱的手续费</p>
+										
+									</li>
+								</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="features-list" id="features">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+
+						<div class="col-md-4 feature-1 wp2">
+							<div class="feature-icon">
+								<i class="fa fa-desktop"></i>
+							</div>
+							<div class="feature-content">
+								<hr>
+								<h1>路线</h1>
+								<p>需求更多商家的合作，形成大数据，对人们的消费习惯进行研究</p>
+								
+							</div>
+						</div>
+						<div class="col-md-4 feature-2 wp2 delay-05s">
+							<div class="feature-icon">
+								<i class="fa fa-flash"></i>
+							</div>
+							<div class="feature-content">
+									<hr>
+								
+								<h1>功能</h1>
+								<p>陆续会有更多功能加入，与物理设备（扫码器）连接，以及完成对数据的分析，合理使用大数据研究人们消费习惯</p>
+								
+							</div>
+						</div>
+						<div class="col-md-4 feature-3 wp2 delay-1s">
+							<div class="feature-icon">
+								<i class="fa fa-heart"></i>
+							</div>
+							<div class="feature-content">
+									<hr>
+								
+								<h1>资费</h1>
+								<p>本站除上链手续费之外，不需要收取任何费用</p>
+													
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</section>
+		
+
+	
+		
+	
+		<footer>
+			<div class="container">
+				<div class="row">
+					
+					<div class="col-md-12">
+						<ul class="footer-nav">
+							<li><a href="#about">关于</a></li>
+							<li><a href="https://nebulas.io/cn/">星云链</a></li>
+							<li><a href="https://blog.nebulas.io/2018/04/12/creating-a-nas-wallet/">星云链钱包使用教程</a></li>
+							<li><a href="https://github.com/nebulasio/WebExtensionWallet">星云链钱包下载</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<div class="overlay overlay-boxify">
+			<nav>
+				<ul>
+					<li><a href="#about"><i class="fa fa-heart"></i>关于</a></li>
+					<li><a href="https://chinawhite666.github.io/medical/login.html"><i class="fa fa-heart"></i>登陆</a></li>
+					
+				</ul>
+				<ul>
+					
+					<li><a href="https://github.com/nebulasio/WebExtensionWallet"><i class="fa fa-download"></i>下载</a></li>
+				</ul>
+			</nav>
 		</div>
-		<script>
-			var app = new Vue({
-				el: '#table',
-				data: {
-					addDetail: {},
-					editlist: false,
-					editDetail: {},
-					newsList: [{
-						title: '在移动设备开发',
-						user: '张若昀',
-						dates: '2018-02-09',
-						id: "45211546"
-					}, {
-						title: '图形及特效特性',
-						user: '张若昀',
-						dates: '2018-02-09',
-						id: "61341341"
-					}, {
-						title: '设备兼容特性',
-						user: '张若昀',
-						dates: '2018-02-09',
-						id: "62451431"
-					}, {
-						title: 'W3C将致力于开发用于实时通信',
-						user: '张若昀',
-						dates: '2018-02-09',
-						id: "62345213"
-					}, {
-						title: '全新的表单输入对象',
-						user: '张若昀',
-						dates: '2018-02-09',
-						id: "23322445"
-					}],
-					editid:''
-				},
-				mounted() {
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="js/toucheffects-min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/flickity.pkgd.min.js"></script>
+		<script src="js/jquery.fancybox.pack.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="js/retina.js"></script>
+		<script src="js/waypoints.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/scripts-min.js"></script>
 
-				},
-				methods: {
-
-					//新增
-					adddetail() {
-						//这里的思路应该是把this.addDetail传给服务端，然后加载列表this.newsList
-						//this.newsList.push(this.addDetail)
-						this.newsList.push({
-							title: this.addDetail.title,
-							user: this.addDetail.user,
-							dates: this.addDetail.dates,
-							id:Math.floor(Math.random()*1000000+1)
-						})
-
-						//axios.post('url',this.addDetail).then((res) =>{
-						//若返回正确结果，清空新增输入框的数据
-						//this.addDetail.title = ""
-						//this.addDetail.user = ""
-						//this.addDetail.dates = ""
-						//})
-
-					},
-					//删除
-					deletelist(id, i) {
-						this.newsList.splice(i, 1);
-						//这边可以传id给服务端进行删除  ID = id
-						//axios.get('url',{ID:id}).then((res) =>{
-						//			加载列表				
-						//})
-						console.log(id+","+i);
-					},
-					//编辑
-					edit(item) {
-						console.log(item)
-						this.editDetail = {
-							title: item.title,
-							user: item.user,
-							dates: item.dates,
-							id: item.id
-						}
-						this.editlist = true
-						this.editid = item.id
-						
-					},
-					//确认更新
-					update() {
-						//编辑的话，也是传id去服务端
-						//axios.get('url',{ID:id}).then((res) =>{
-						//			加载列表				
-						//})
-						let _this= this
-						for(let i = 0; i < _this.newsList.length; i++) {
-							if(_this.newsList[i].id ==this.editid) {
-								_this.newsList[i] = {
-									title: _this.editDetail.title,
-									user: _this.editDetail.user,
-									dates: _this.editDetail.dates,
-									id: this.editid
-								}
-								this.editlist = false
-							}
-						}
-					}
-				}
-			})
-		</script>
 	</body>
-
 </html>
