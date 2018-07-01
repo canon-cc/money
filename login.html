@@ -151,10 +151,10 @@
 			return this.replace(/(\s*$)/g, "");   
 			}  
 			var  pop =function() {
-			spop('<h4 class="spop-title">演示账号——洪医生id</h4>n1FDgHUquS4vEewpNfdZdH4h468wzj5jqrd', 'success');
+			spop('<h4 class="spop-title">演示账号——商家id</h4>n1FDgHUquS4vEewpNfdZdH4h468wzj5jqrd', 'success');
 			}
 			window.onload=pop;
-			var dappContactAddress = "n1zfYTUZTva1ak7LXDRYo4qfJdtACJatGh5";
+			var dappContactAddress = "n1pzQoWhEfLWrdjEUouq2fYyTXKmjw7uH2T";
     		var nebulas = require("nebulas"), Account = Account, neb = new nebulas.Neb();
     		neb.setRequest(new nebulas.HttpRequest("https://mainnet.nebulas.io"))
 
@@ -168,85 +168,7 @@
       		var nonce = "0"
         	var gas_price = "1000000";
 			var gas_limit = "2000000";
-		function pat(){
-			for(var z=0;z<20;z++){
-				
-				app.newsList.splice(0, 1);//调试 跟踪参数
-			}
-			
-		
-		var a =document.getElementById("docadd");
-			a.style.display="none";
-			
-			
-			var b =document.getElementById("inputid");
-			var getid=b.value.LTrim();//空格要小心
-			
-			if(getid){
-				var  ppp =function() {
-					spop('患者'+b.value+'已登陆', 'success');
-					}
-					
-				ppp();
-				b.value="";	
-
-				showLoading({
-				title:"正在加载",
-				mask:true,
-				success:function (res) {
-					console.warn(JSON.stringify(res))
-				}
-				});
-				setTimeout(function(){
-					hideLoading()
-				},4000);
-
-				}
-				else{
-					showToast({
-					title:"输入不能为空",
-					icon:'loading',
-					duration:1000,
-					mask:true,
-					success:function (res) {
-						console.warn(JSON.stringify(res))
-					}
-					});
-					}
-			var callFunction = "getall";
-			var callArgs = "[\""+getid+"\"]";
-
-			var contract = {
-            "function": callFunction,
-            "args": callArgs
-			}
-			
-			neb.api.call(from, dappContactAddress, value, nonce, gas_price, gas_limit, contract).then(function (resp) {
-            var result = resp.result;
-            
-			result = JSON.parse(result);
-			for( var c=0;c<10;c++){
-				if(result[c]){
-					app.newsList.push({
-							title: result[c].content,
-							user: result[c].id,
-							dates: result[c].date,
-							id:number++
-						})
-
-				}
-
-
-			}
-
-			}).catch(function (err) {console.log("error :" + err.message);}) 
-
-
-
-
-
-
-		}	
+			var getid="";
 		function doc(){
 			for(var z=0;z<20;z++){
 				
@@ -261,15 +183,15 @@
 			a.style.display="block";
 			var b =document.getElementById("inputid");
 			
-			var getid=b.value.LTrim();
+			 getid=b.value.LTrim();
 			
 			if(getid){
 				var  ddd =function() {
-					spop('医生'+b.value+'已登陆', 'success');
+					spop('商家'+b.value+'已登陆', 'success');
 					}
 					
 				ddd();
-				b.value="";	
+					
 			showLoading({
             title:"正在加载",
             mask:true,
@@ -338,14 +260,14 @@
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2 text">
                         	<a class="logo" href="index.html"></a>
-                            <h1><strong>nubulas</strong> 星云医疗链</h1>
+                            <h1>每笔帐都需正确登记，请严格执行</h1>
                             <div class="description">
                             	
                             </div>
                             <div class="top-big-link">
-									<input type="text" id="inputid" name="title" value="" placeholder="患者或医生id（id即为nas钱包地址）" style="width: 300px;"/>
-								<a class="btn btn-link-1 launch-modal" href="#" onclick="doc()" >医生</a>
-								<a class="btn btn-link-1 launch-modal" href="#" onclick="pat()">患者</a>
+									<input type="text" id="inputid" name="title" value="" placeholder="商家id（id即为nas钱包地址）" style="width: 300px;"/>
+								<a class="btn btn-link-1 launch-modal" href="#" onclick="doc()" >商家登入</a>
+								
                             </div>
                         </div>
                     </div>
@@ -358,18 +280,17 @@
         </div>
         <div id="table" style="color: #040607;" >
 			<div class="add"  id="docadd" style="display: none;">
-				<input type="text" v-model="addDetail.title" name="title" value="" placeholder="患者id" style="width: 280px;"/>
-				<input type="text" v-model="addDetail.user" name="user" value="" placeholder="症状及对策"  style="width: 600px;"/>
-				<input type="text" v-model="addDetail.dates" name="date" value="" placeholder="发布时间" />
+				<input type="text" v-model="addDetail.title" name="title" value="" placeholder="品种以及数量" style="width: 600px;"/>
+				<input type="text" v-model="addDetail.user" name="user" value="" placeholder="总金额"  style="width: 280px;"/>
+				<input type="text" v-model="addDetail.dates" name="date" value="" placeholder="经手人" />
 				<button @click="adddetail">新增</button>
 			</div>
 			<table cellpadding="0" cellspacing="0">
 				<thead>
 					<tr>
 						<th>序号</th>
-						<th>症状及对策</th>
-						<th>患者id</th>
-						<th>发布时间</th>
+						<th>交易明细</th>
+						
 						
 					</tr>
 				</thead>
@@ -377,29 +298,12 @@
 					<tr v-for="(item,index) in newsList">
 						<td width="5%">{{index+1}}</td>
 						<td>{{item.title}}</td>
-						<td width="10%">{{item.user}}</td>
-						<td width="15%">{{item.dates}}</td>
+					
 						
 					</tr>
 				</tbody>
 			</table>
-			<div id="mask" v-if="editlist">
-				<div class="mask">
-					<div class="title">
-						编辑
-						<span @click="editlist=false">
-							X
-						</span>
-					</div>
-					<div class="content">
-						<input type="text" v-model="editDetail.title" name="title" value="" placeholder="标题" />
-						<input type="text" v-model="editDetail.user" name="user" value="" placeholder="发布人" />
-						<input type="date" v-model="editDetail.dates" name="date" value="" placeholder="发布时间" />
-						<button @click="update">更新</button>
-						<button @click="editlist=false">取消</button>
-					</div>
-				</div>
-			</div>
+			
 		</div>
 		<script>
 			var app = new Vue({
@@ -421,6 +325,15 @@
 					adddetail() {
 						//这里的思路应该是把this.addDetail传给服务端，然后加载列表this.newsList
 						//this.newsList.push(this.addDetail)
+						var today=new Date();
+						var yy= today.getFullYear();
+						var mmm =today.getMonth();
+						var  dd  =today.getDate();
+							var hh=today.getHours();
+							var mm=today.getMinutes();
+							var sw=today.getSeconds();// 在小于10的数字前加一个‘0’
+						
+							var tt=yy+"-"+mmm+"-"+dd+" "+hh+":"+mm+":"+sw+" ";
 						var to = dappContactAddress;
 						var value = "0";
 						var nonce = "0"
@@ -428,7 +341,7 @@
 						var gas_limit = "2000000";
 						var number=0;
 						var callFunction = "save";
-						var callArgs = "[\"" +this.addDetail.title+ "\",\""+this.addDetail.user+"\",\""+this.addDetail.dates+"\"]";
+						var callArgs = "[\"" +getid+ "\",\""+tt+"——商品:"+this.addDetail.title+"——金额:"+this.addDetail.user+"——经手人:"+this.addDetail.dates+"\"]";
 						serialNumber = nebPay.call(to, value, callFunction, callArgs, {    //使用nebpay的call接口去调用合约,
 							listener: function (resp) {
 								console.log("thecallback is " + resp)
@@ -438,18 +351,17 @@
 							
 								}else{
 									
-					
+									app.newsList.push({
+									title: tt+"——商品:"+app.addDetail.title+"——金额:"+app.addDetail.user+"——经手人:"+app.addDetail.dates,
+							
+									id:   number++
+									})
+
 									alert("上传成功！");
 								}
 							}
 						});	
-						this.newsList.push({
-							title: this.addDetail.user,
-							user: this.addDetail.title,
-							dates: this.addDetail.dates,
-							id:   number++
-						})
-
+					
 						//axios.post('url',this.addDetail).then((res) =>{
 						//若返回正确结果，清空新增输入框的数据
 						//this.addDetail.title = ""
